@@ -116,3 +116,7 @@ LOCAL_STATIC_LIBRARIES := libselinux
 LOCAL_WHOLE_STATIC_LIBRARIES := libpcre
 LOCAL_C_INCLUDES := external/pcre
 include $(BUILD_HOST_EXECUTABLE)
+
+$(call import-module,libpcre)
+$(call import-module,libpackagelistparser)
+$(call import-module,libcrypto)

@@ -21,7 +21,8 @@
 #include <selinux/label.h>
 #include <selinux/avc.h>
 #include <openssl/sha.h>
-#include <android/log.h>
+#include <private/android_filesystem_config.h>
+#include <log/log.h>
 #include "policy.h"
 #include "callbacks.h"
 #include "selinux_internal.h"
@@ -685,7 +686,6 @@ static int seapp_context_lookup(enum seapp_kind kind,
 		seinfo = parsedseinfo;
 	}
 
-#if 0
 	userid = uid / AID_USER;
 	isOwner = (userid == 0);
 	appid = uid % AID_USER;
@@ -702,13 +702,9 @@ static int seapp_context_lookup(enum seapp_kind kind,
 		username = "_app";
 		appid -= AID_APP;
 	} else {
-#endif
 		username = "_isolated";
-		appid = 0;
-#if 0
 		appid -= AID_ISOLATED_START;
 	}
-#endif
 
 	if (appid >= CAT_MAPPING_MAX_ID || userid >= CAT_MAPPING_MAX_ID)
 		goto err;
@@ -1650,10 +1646,8 @@ int selinux_log_callback(int type, const char *fmt, ...)
 
     va_start(ap, fmt);
     if (vasprintf(&strp, fmt, ap) != -1) {
-#if 0
         LOG_PRI(priority, "SELinux", "%s", strp);
         LOG_EVENT_STRING(AUDITD_LOG_TAG, strp);
-#endif
         free(strp);
     }
     va_end(ap);
